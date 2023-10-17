@@ -39,23 +39,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
-    bans:{
-      type:[Date],
-      default:[],//default null 
-    },
+    cooldowns: [{ type: Date }],
   },
   { timestamps: true }
 );
 // Create the User model
 const User = mongoose.model("User", userSchema);
-
-userSchema.pre('save',function(next){
-  if(this.isModified('bans')&&this.bans.length>0){
-    if(this.bans.length>3){
-      this.bans[this.bans.length-1]=new Date('2099-12-31T23:59:59.999Z')
-    }
-  }
-  next();
-})
 module.exports = User;
-

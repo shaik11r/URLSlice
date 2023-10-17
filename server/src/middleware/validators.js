@@ -6,7 +6,7 @@ const axios=require('axios');
 const dns=require('dns');
 const URL=require('url');
 const ms=require('ms');
-
+const User=require('../models/user');
 const {addProtocol,removeWww}=require('../util/index');
 const query=require('../services/link');
 
@@ -96,7 +96,7 @@ export const createLink=[
     })
     .withMessage("you cant use this domain.")
 ];
-const editLink=[
+export const editLink=[
     body("target")
     .optional({checkFalsy:true,nullable:true})
     .isString()
@@ -145,3 +145,6 @@ const editLink=[
     .exists({checkFalsy:true,checkNull:true})
     .isLength({min:36,max:36})
 ]
+export const cooldown=(User)=>{
+    if(!process.env.GOOGLE_SAFE_BROWSING_KEY||!User||!User.cooldown)
+}
