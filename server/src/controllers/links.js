@@ -18,4 +18,25 @@ const get = async (req, res) => {
     query.total(match, { search }),
   ]);
   const data=links.map(utils.sanitize.link);
+  return res.send({
+    total,
+    limit,
+    skip,
+    data,
+  })
 };
+const create=async(req,res)=>{
+  const{
+    reuse,
+    customurl,
+    description,
+    target,
+    domain,
+    expire_in,
+  }=req.body;
+  const domain_id=domain?domain.id:null;
+  const targetDomain=utils.removeWww(URL.parse(target).hostname)
+  const queries=await Promise.all([
+    validators.cooldown(req.use)
+  ])
+}

@@ -44,3 +44,6 @@ export const getInitstats=()=>{
         city:{},
     });
 };
+export const removeWww=(host="")=>{
+    return host.replace("www.","");
+};
