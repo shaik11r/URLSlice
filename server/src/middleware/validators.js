@@ -189,3 +189,43 @@ export async function malware(user, target) {
   }
   throw new Error(user ? "Malware detected cooldown for 12h " : "Malware detected");
 }
+
+//setting dates and checking limits per day 
+
+export const linksCount=async(user)=>{
+    if(!user)return;
+    const count=await query.link.total({
+        user_id:user.id,
+        created_at:[">",subDays(new Date(),1 ).toString()]
+    });
+    if(count>env.USER_LIMIT_PER_DAY){
+        throw new Error(`You have reached your daily limit (${env.USER_LIMIT_PER_DAY}). Please wait for 24hrs`);
+    }
+};
+export const bannedDomain=async(domain)=>{
+    const isBanned=await query.domain.find({
+        address:domain,
+        banned:true,
+    })
+    if(isBanned){
+        throw new Error("URL Is containing malware/scam");
+    }
+};
+
+export const bannedHost=async(domain)=>{
+    let isBanned;
+    try{
+        const dnsRes=await dnsLookup(domain);
+        if(!dnsRes|| !dnsRes.address)return;
+        isBanned=await query.host.find({
+            address:dnsRes.address,
+            banned:true
+        });
+    }
+    catch(error){
+        isBanned=null;
+    }
+    if(isBanned){
+        throw new Error('Url contains malware/scam')
+    }
+}
