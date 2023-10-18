@@ -47,3 +47,6 @@ export const getInitstats=()=>{
 export const removeWww=(host="")=>{
     return host.replace("www.","");
 };
+export const generateId =async(domain_id=null)=>{
+    const address=nanoid("abcdefghkmnpqrstuvwxyzABCDEFGHKLMNPQRSTUVWXYZ23456789",LINK_LENGTH)
+}

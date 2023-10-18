@@ -21,3 +21,4 @@ const env={
     REPORT_MAIL:process.env.REPORT_MAIL || "",
     CONTACT_EMAIL:process.env.CONTACT_EMAIL || "",
 }
+export default env;
